@@ -21,7 +21,7 @@
 <body>
   <div id="map"></div>
   <script>
-  var tiles = L.tileLayer('//a.tiles.mapbox.com/v3/lyzidiamond.map-ietb6srb/{z}/{x}/{y}.png', {
+  var tiles = L.tileLayer('//api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZGFzam8iLCJhIjoiNFVtVWZyOCJ9.lhFudkoxaMAP0sS6AgPoTQ', {
     maxZoom: 18
   });
 
@@ -29,12 +29,30 @@
     var geojson = L.geoJson(data, {
       onEachFeature: function (feature, layer) {
         layer.bindPopup(feature.properties.name);
+      },
+      style: {
+        weight: '8',
       }
     });
     var map = L.map('map').fitBounds(geojson.getBounds());
     tiles.addTo(map);
     geojson.addTo(map);
+
+    $.getJSON("./drupalps-plan.geojson", function(data) {
+      var geojson = L.geoJson(data, {
+        onEachFeature: function (feature, layer) {
+          layer.bindPopup(feature.properties.name);
+        },
+        style: {
+          color: 'grey',
+          weight: '5'
+        }
+      });
+      tiles.addTo(map);
+      geojson.addTo(map);
+    });
   });
+  
   </script>
 </body>
 </html>
