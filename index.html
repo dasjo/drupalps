@@ -25,26 +25,53 @@
     maxZoom: 18
   });
 
-  $.getJSON("./drupalps.geojson", function(data) {
+  $.getJSON("./drupalps-realized.geojson", function(data) {
     var geojson = L.geoJson(data, {
       onEachFeature: function (feature, layer) {
         layer.bindPopup(feature.properties.name);
+        layer.on('mouseover', function (e) {
+            this.openPopup();
+            layer.setStyle({
+              opacity: 1
+            });
+        });
+        layer.on('mouseout', function (e) {
+            this.openPopup();
+            layer.setStyle({
+              opacity: 0.5
+            });
+        });
       },
       style: {
         weight: '8',
+        opacity: 0.5
       }
     });
     var map = L.map('map').fitBounds(geojson.getBounds());
     tiles.addTo(map);
     geojson.addTo(map);
 
-    $.getJSON("./drupalps-plan.geojson", function(data) {
+    $.getJSON("./drupalps-1.0.geojson", function(data) {
       var geojson = L.geoJson(data, {
         onEachFeature: function (feature, layer) {
           layer.bindPopup(feature.properties.name);
         },
         style: {
-          color: 'grey',
+          color: '#666666',
+          weight: '5'
+        }
+      });
+      tiles.addTo(map);
+      geojson.addTo(map);
+    });
+
+    $.getJSON("./drupalps-1.2.geojson", function(data) {
+      var geojson = L.geoJson(data, {
+        onEachFeature: function (feature, layer) {
+          layer.bindPopup(feature.properties.name);
+        },
+        style: {
+          color: '#888888',
           weight: '5'
         }
       });
