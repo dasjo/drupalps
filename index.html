@@ -30,13 +30,11 @@
       onEachFeature: function (feature, layer) {
         layer.bindPopup(feature.properties.name);
         layer.on('mouseover', function (e) {
-            this.openPopup();
             layer.setStyle({
               opacity: 1
             });
         });
         layer.on('mouseout', function (e) {
-            this.openPopup();
             layer.setStyle({
               opacity: 0.5
             });
